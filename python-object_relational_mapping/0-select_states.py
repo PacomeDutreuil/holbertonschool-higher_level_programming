@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-"""Lists all states from the database."""
+"""Lists all states from a MySQL database."""
 
 import MySQLdb
 import sys
 
 
 if __name__ == "__main__":
-    db = MySQLdb.connect(
+    conn = MySQLdb.connect(
         host="localhost",
         port=3306,
         user=sys.argv[1],
@@ -14,11 +14,12 @@ if __name__ == "__main__":
         db=sys.argv[3]
     )
 
-    cur = db.cursor()
-    cur.execute("SELECT * FROM states ORDER BY id ASC")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM states ORDER BY states.id ASC")
 
-    for row in cur.fetchall():
+    rows = cur.fetchall()
+    for row in rows:
         print(row)
 
     cur.close()
-    db.close()
+    conn.close()
